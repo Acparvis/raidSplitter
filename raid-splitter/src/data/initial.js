@@ -1,15 +1,66 @@
-import {Map, List} from "immutable";
+const initState = {
+  boardData: {
+    columns: [
+      {
+        id: 1,
+        title: 'Benched',
+        cards: [
+          {
+            id: 1,
+            name: 'Parvy',
+            characterClass: 2,
+            role: 2,
+            note: "",
+            itemPrio: [],
+            alts: [4]
+          },
+          {
+            id: 2,
+            name: 'Rhinan',
+            characterClass: 8,
+            role: 0,
+            note: "Big daddy",
+            itemPrio: [],
+            alts: []
+          },
+          {
+            id: 3,
+            name: 'Klingspor',
+            characterClass: 4,
+            role: 3,
+            note: "Heal daddy",
+            itemPrio: [],
+            alts: []
+          },
+          {
+            id: 4,
+            name: 'Tankus',
+            characterClass: 8,
+            role: 1,
+            note: "Bad warrior",
+            itemPrio: [],
+            alts: [1]
+          },
+        ]
+      },
+      {
+        id: 2,
+        title: 'Raid 1',
+        cards: []
+      },
+      {
+        id: 3,
+        title: 'Raid 2',
+        cards: []
+      },
+      {
+        id: 4,
+        title: 'Raid 3',
+        cards: []
+      }
+    ]
+  }
+}
 
-// Initial state, once a player is entered this info will be overwritten.
-export default Map({
-  value: "",
-  players: List([]), //Players initially go here when entered by the user.
-  listsize: 0,
-  numberofrounds: 0, //Number of rounds that will need to be generated, based on the number of players entered.
-  firstroundmatches: 0, //Number of matches that will be played in the first round.
-  contestants: List([]),
-  matches: 0,
-  Tournament: Map({//Tournament data structure.
-    Rounds: List([List([]), Map({})]) //Each Map contains a match, the lists are rounds.
-  })
-});
+
+export default initState;
