@@ -45,8 +45,9 @@ function App() {
   return (
     <div className="App">
       <Board initialBoard={board} />
+      {/*{JSON.stringify(value)}*/}
     </div>
   );
 }
 
-export default App;
+export default connect(mapStateToProps)(App);
