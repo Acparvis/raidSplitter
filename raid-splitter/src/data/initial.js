@@ -1,4 +1,5 @@
 const initState = {
+  playerCount: 4,
   boardData: {
     columns: [
       {
