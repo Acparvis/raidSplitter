@@ -14,20 +14,31 @@ const PlayerCard = ({name, category, characterClass, role, note, alts, onDragSta
 
   const conflictDetect = () => {
     // look at any alts the player has
-
     let conflicts = []
 
-    alts.forEach((alt) => {
+    // if any of the alts are in the same column return them
+    !!alts && alts.forEach((alt) => {
       let found = players.find(function(player){
         return player.name === alt && player.category === category
       });
-      if (found) conflicts.push(found);
+      if (found) conflicts.push(found.name);
     })
 
-    return conflicts;
+    // get all the players from the same column
+    const columnPlayers = players.filter(player => player.category === category);
 
-    // if any of the alts are in the same column return red boxshadow
+    //compare the player name to the alts in the column, if they match return the alt name
+    columnPlayers.forEach(p => {
+      let found = !!p.alts && p.alts.find(function(alt){
+        return name === alt
+      });
 
+      if (found) conflicts.push(p.name)
+    })
+
+
+
+    return conflicts.join(", ");
   }
 
   return (
@@ -36,11 +47,10 @@ const PlayerCard = ({name, category, characterClass, role, note, alts, onDragSta
           onDragStart={e => onDragStart(e, name)}
          className="item-container"
     >
-      {console.log(conflictDetect())}
       {/*removed options cog for now*/}
       {/*<span>{name} {getRoleData(role).icon}</span> <FaCog onClick={() => alert(note)}/>*/}
       <span>{name} {getRoleData(role).icon}</span>
-      <span>{JSON.stringify(conflictDetect())}</span>
+      {!!conflictDetect().length && <span className="conflict-players">{conflictDetect()}</span>}
     </div>
   )
 };

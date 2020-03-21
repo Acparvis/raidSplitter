@@ -1,6 +1,4 @@
 const schema = (players) => {
-  console.log(players);
-
   return {
     "id": "my-new-form",
     "label": "My New Form",
@@ -18,6 +16,7 @@ const schema = (players) => {
             type: "field",
             renderer: "text",
             fieldType: "text",
+            validation: [['string'], ['required']]
           },
           "characterClass": {
             type: "field",
@@ -25,6 +24,7 @@ const schema = (players) => {
             name: "characterClass",
             label: "Class",
             isCreatable: true,
+            validation: [['string'], ['required']],
             options: [{
               value: 0,
               label: "Druid"
@@ -68,6 +68,7 @@ const schema = (players) => {
             name: "role",
             label: "Role",
             isCreatable: true,
+            validation: [['string'], ['required']],
             options: [{
               value: 0,
               label: "Tank"
@@ -90,7 +91,7 @@ const schema = (players) => {
             type: "field",
             renderer: "react-select",
             name: "alts",
-            label: "React Select Multi",
+            label: "Alts",
             isMulti: true,
             isCreatable: true,
             options: players.filter((p) => p.category !== "trash").map((player) => {

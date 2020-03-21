@@ -21,11 +21,14 @@ class DragAndDropApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      form: false
+      form: false,
+      trashColumn: false
     }
   }
 
   formFlip = () => this.setState({form: !this.state.form});
+
+  toggleTrashColumn = () => this.setState({ trashColumn: !this.state.trashColumn})
 
   onDragOver = ev => {
     ev.preventDefault();
@@ -51,7 +54,7 @@ class DragAndDropApp extends React.Component {
       <div>
         <div id="background-image"></div>
         <div className="container">
-          {Object.keys(players).filter(i => i !== "trash").map((item) => {
+          {Object.keys(players).filter(i => this.state.trashColumn || i !== "trash").map((item) => {
               return <DropColumn
                 onDragOver={this.onDragOver}
                 category={item} players={players}
@@ -68,6 +71,7 @@ class DragAndDropApp extends React.Component {
             className="trash-drop"
             onDrop={e => this.props.playerMove(e, "trash")}
             onDragOver={e => this.onDragOver(e)}
+            onClick={this.toggleTrashColumn}
           >
             <FaTrashAlt/>
           </div>

@@ -19,9 +19,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const NewPlayer = ({playerAdd, players}) => (
-    <Form schema={schema(players)} onSubmit={(values, {resetForm}) => {
+    <Form
+      schema={schema(players)} onSubmit={(values, {resetForm}) => {
       playerAdd(values)
-      resetForm();
+      resetForm({});
     }}/>
 );
 

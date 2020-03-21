@@ -6,6 +6,8 @@ const addPlayer = (state, {value}) => {
   value.category = "benched";
   value.id = state.players.length + 1;
 
+  if (value.alts === null) value.alts = [];
+
   return {
     players: [
       ...state.players,

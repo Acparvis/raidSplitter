@@ -52,6 +52,8 @@ body, html {
     &:hover {
         background: rgba(15,89,89, 0.9);
     }
+    display: flex;
+    justify-content: space-between;
 }
 
 h1 {
@@ -79,14 +81,13 @@ input {
     &:focus, &:hover {
         background: rgba(255,255,255,1);
         border: 3px solid #FB6964;
-        width: 520px;
-        height: 55px;
     }
 }
 
 .formContainer{
     width: 50%;
     margin: auto;
+    background: grey;
 }
 .trash-drop-container{
     display:flex;
@@ -129,4 +130,14 @@ input {
     &:hover {
         background: rgba(217, 151, 76, 0.6);
     }
+}
+
+.conflict-players{
+    color: white;
+    background: red;
+
+    //font-weight: bold;
+
+    border-radius: 12px;
+    padding: 3px 7px;
 }
