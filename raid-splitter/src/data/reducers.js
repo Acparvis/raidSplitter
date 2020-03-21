@@ -1,5 +1,5 @@
 import initial from "./initial";
-import { ADD_PLAYER } from "./actions/players";
+import { ADD_PLAYER, MOVE_PLAYER } from "./actions/players";
 import generatePlayerId from "../utils/generatePlayerId";
 
 //Updates which of the first round pairings has won the game - changes state of result.
@@ -62,15 +62,37 @@ const addPlayer = (state, { value }) => {
       ]
     }
   }
-
-
 };
+
+const movePlayer = (state, { event, cat }) => {
+  console.log({event, cat})
+
+  const id = event.dataTransfer.getData("id");
+
+  let players = state.players.filter(player => {
+    if (player.name == id) {
+      player.category = cat;
+    }
+    return player;
+  });
+
+  console.log(players);
+  // this.setState({
+  //   ...this.state,
+  //   players
+  // });
+
+  return { ...state, players}
+
+}
 
 // Reducer switch statement.
 export default(state = initial, action) => {
   switch (action.type) {
     case ADD_PLAYER:
       return addPlayer(state, action);
+    case MOVE_PLAYER:
+      return movePlayer(state, action);
     default:
       return state;
   }
