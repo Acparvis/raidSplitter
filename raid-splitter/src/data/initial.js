@@ -1,10 +1,6 @@
 const initState = {
   players: [
     {
-      name: "Add More Tasks",
-      category: "benched"
-    },
-    {
       id: 1,
       name: 'Parvy',
       category: "benched",
@@ -12,7 +8,7 @@ const initState = {
       role: 2,
       note: "",
       itemPrio: [],
-      alts: [4]
+      alts: []
     },
     {
       id: 2,
@@ -42,7 +38,7 @@ const initState = {
       role: 1,
       note: "Bad warrior",
       itemPrio: [],
-      alts: [1]
+      alts: [ "Parvy" ]
     },
   ]
   // playerCount: 4,

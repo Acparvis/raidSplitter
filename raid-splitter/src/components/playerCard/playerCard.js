@@ -3,7 +3,7 @@ import getClassData from "../../utils/getPlayerClass";
 import getRoleData from "../../utils/getRoleData";
 import { FaCog } from 'react-icons/fa';
 
-const PlayerCard = ({name, characterClass, role, note}) => {
+const PlayerCard = ({name, characterClass, role, note, onDragStart}) => {
 
   const generateStyles = () => {
     return {
@@ -13,7 +13,11 @@ const PlayerCard = ({name, characterClass, role, note}) => {
   }
 
   return (
-    <div style={generateStyles()}>
+    <div style={generateStyles()}
+          draggable
+          onDragStart={e => onDragStart(e, name)}
+         className="item-container"
+    >
       <span>{name} {getRoleData(role).icon}</span> <FaCog onClick={() => alert(note)}/>
     </div>
   )

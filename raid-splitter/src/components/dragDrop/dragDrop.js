@@ -1,6 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import {addPlayer, movePlayer} from "../../data/actions/players";
+import PlayerCard from "../playerCard/playerCard";
+import NewPlayer from "../newPlayer/newPlayer";
+import DropColumn from "../dropColumn/dropColumn";
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -13,8 +16,15 @@ const mapDispatchToProps = dispatch => ({
   playerMove: (event, cat) => dispatch(movePlayer(event, cat)),
 });
 
-
 class DragAndDropApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      form: false
+    }
+  }
+
+  formFlip = () => this.setState({form: !this.state.form});
 
   onDragOver = ev => {
     ev.preventDefault();
@@ -22,33 +32,6 @@ class DragAndDropApp extends React.Component {
 
   onDragStart = (ev, name) => {
     ev.dataTransfer.setData("id", name);
-  };
-
-  onDrop = (ev, cat) => {
-    const id = ev.dataTransfer.getData("id");
-
-    let players = this.state.players.filter(task => {
-      if (task.name == id) {
-        task.category = cat;
-      }
-      return task;
-    });
-    this.setState({
-      ...this.state,
-      players
-    });
-  };
-
-  handleKeyPress = ev => {
-    if ((ev.key == "Enter") && (ev.target.value != "")) {
-      this.setState({
-        players: [
-          ...this.state.players,
-          { name: ev.target.value, category: "benched" }
-        ]
-      });
-      ev.target.value = " ";
-    }
   };
 
   render() {
@@ -60,64 +43,24 @@ class DragAndDropApp extends React.Component {
       trash: []
     };
 
-    this.props.players.forEach(t => {
-      players[t.category].push(
-        <div
-          className="item-container"
-          key={t.name}
-          draggable
-          onDragStart={e => this.onDragStart(e, t.name)}
-        >
-          {t.name}
-        </div>
-      );
-    });
+    this.props.players.forEach(player => players[player.category].push(<PlayerCard {...player}
+                                                                                   onDragStart={this.onDragStart}/>));
 
 
     return (
       <div>
+        <div id="background-image"></div>
         <div class="container">
-          <div
-            className="drop-area"
-            onDragOver={e => this.onDragOver(e)}
-            onDrop={e => this.props.playerMove(e, "benched")}
-          >
-            <h1>Benched</h1>
-            {players.benched}
-          </div>
-          <div
-            className="drop-area"
-            onDragOver={e => this.onDragOver(e)}
-            onDrop={e => this.props.playerMove(e, "raid1")}
-          >
-            <h1>Raid 1</h1>
-            {players.raid1}
-          </div>
-          <div
-            className="drop-area"
-            onDragOver={e => this.onDragOver(e)}
-            onDrop={e => this.props.playerMove(e, "raid2")}
-          >
-            <h1>Raid 2</h1>
-            {players.raid2}
-          </div>
-          <div
-          className="drop-area"
-          onDragOver={e => this.onDragOver(e)}
-          onDrop={e => this.props.playerMove(e, "raid3")}
-        >
-          <h1>Raid 3</h1>
-          {players.raid3}
-        </div>
+          {Object.keys(players).filter(i => i !== "trash").map((item) => {
+              return <DropColumn
+                onDragOver={this.onDragOver}
+                category={item} players={players}
+                playerMove={this.props.playerMove}
+              />
+            }
+          )}
         </div>
         <div>
-          <input
-            onKeyPress={e => this.handleKeyPress(e)}
-            className="input"
-            type="text"
-            placeholder="Task Name"
-          />
-
           <div
             class="trash-drop"
             onDrop={e => this.props.playerMove(e, "trash")}
@@ -126,6 +69,13 @@ class DragAndDropApp extends React.Component {
             Drop here to remove
           </div>
         </div>
+
+        <button onClick={this.formFlip}>Open Modal</button>
+
+        {this.state.form && (<div className="formContainer">
+          <NewPlayer/>
+        </div>)}
+
       </div>
     );
   }
