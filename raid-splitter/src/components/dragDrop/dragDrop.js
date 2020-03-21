@@ -4,6 +4,7 @@ import {addPlayer, movePlayer} from "../../data/actions/players";
 import PlayerCard from "../playerCard/playerCard";
 import NewPlayer from "../newPlayer/newPlayer";
 import DropColumn from "../dropColumn/dropColumn";
+import {FaTrashAlt} from "react-icons/all";
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -43,14 +44,13 @@ class DragAndDropApp extends React.Component {
       trash: []
     };
 
-    this.props.players.forEach(player => players[player.category].push(<PlayerCard {...player}
-                                                                                   onDragStart={this.onDragStart}/>));
+    this.props.players.forEach(player => players[player.category].push(<PlayerCard {...player} onDragStart={this.onDragStart} players={this.props.players}/>));
 
 
     return (
       <div>
         <div id="background-image"></div>
-        <div class="container">
+        <div className="container">
           {Object.keys(players).filter(i => i !== "trash").map((item) => {
               return <DropColumn
                 onDragOver={this.onDragOver}
@@ -60,17 +60,19 @@ class DragAndDropApp extends React.Component {
             }
           )}
         </div>
-        <div>
+        <div className="trash-drop-container">
+          <div className="add-player" onClick={this.formFlip}>
+            Add player
+          </div>
           <div
-            class="trash-drop"
+            className="trash-drop"
             onDrop={e => this.props.playerMove(e, "trash")}
             onDragOver={e => this.onDragOver(e)}
           >
-            Drop here to remove
+            <FaTrashAlt/>
           </div>
         </div>
 
-        <button onClick={this.formFlip}>Open Modal</button>
 
         {this.state.form && (<div className="formContainer">
           <NewPlayer/>
