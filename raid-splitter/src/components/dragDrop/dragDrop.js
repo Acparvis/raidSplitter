@@ -5,6 +5,7 @@ import PlayerCard from "../playerCard/playerCard";
 import NewPlayer from "../newPlayer/newPlayer";
 import DropColumn from "../dropColumn/dropColumn";
 import {FaTrashAlt} from "react-icons/all";
+import ReactJson from 'react-json-view';
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -86,7 +87,7 @@ class DragAndDropApp extends React.Component {
 
         <button onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools</button>
 
-        {!!this.state.dTools && <p style={{ background: "grey"}}>{JSON.stringify(this.props.players)}</p>}
+        {!!this.state.dTools && <ReactJson src={this.props.players} theme={"shapeshifter:inverted"}/>}
 
       </div>
     );
