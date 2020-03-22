@@ -1,11 +1,14 @@
 import React from "react";
 import {connect} from "react-redux";
 import {addPlayer, movePlayer} from "../../data/actions/players";
+import { resetApp } from "../../data/actions/app";
 import PlayerCard from "../playerCard/playerCard";
 import NewPlayer from "../newPlayer/newPlayer";
 import DropColumn from "../dropColumn/dropColumn";
 import {FaTrashAlt} from "react-icons/all";
 import ReactJson from 'react-json-view';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -16,6 +19,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   playerAdd: (value) => dispatch(addPlayer(value)),
   playerMove: (event, cat) => dispatch(movePlayer(event, cat)),
+  appReset: () => dispatch(resetApp()),
 });
 
 class DragAndDropApp extends React.Component {
@@ -38,6 +42,23 @@ class DragAndDropApp extends React.Component {
 
   onDragStart = (ev, name) => {
     ev.dataTransfer.setData("id", name);
+  };
+
+  submit = (resetData) => {
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure you want to nuke all data?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => resetData(),
+        },
+        {
+          label: 'No',
+          onClick: () => console.log("don't reset"),
+        }
+      ]
+    });
   };
 
   render() {
@@ -86,6 +107,9 @@ class DragAndDropApp extends React.Component {
         </div>)}
 
         <button onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools</button>
+
+        <button onClick={() => this.submit(this.props.appReset)}>nuke data</button>
+
 
         {!!this.state.dTools && <ReactJson src={this.props.players} theme={"shapeshifter:inverted"}/>}
 

@@ -12,3 +12,4 @@ export const movePlayer = (event, cat) => ({
   event,
   cat
 });
+

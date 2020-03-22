@@ -1,6 +1,6 @@
 import initial from "./initial";
 import {ADD_PLAYER, MOVE_PLAYER} from "./actions/players";
-import generatePlayerId from "../utils/generatePlayerId";
+import {RESET_APP} from "./actions/app";
 
 const addPlayer = (state, {value}) => {
   value.category = "benched";
@@ -37,6 +37,8 @@ export default (state = initial, action) => {
       return addPlayer(state, action);
     case MOVE_PLAYER:
       return movePlayer(state, action);
+    case RESET_APP:
+      return initial;
     default:
       return state;
   }
