@@ -1,8 +1,8 @@
 import React from "react";
-import {FaCog} from "react-icons/all";
 import {addPlayer, movePlayer} from "../../data/actions/players";
 import {connect} from "react-redux";
 import genRaidinfo from "../../utils/genRaidinfo";
+import TextDisplay from "../textDisplay";
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -15,8 +15,6 @@ const mapDispatchToProps = dispatch => ({
   playerMove: (event, cat) => dispatch(movePlayer(event, cat)),
 });
 
-
-
 const DropColumn = ({category, players, playerMove, onDragOver, playerState}) => {
   return (
     <div
@@ -24,9 +22,10 @@ const DropColumn = ({category, players, playerMove, onDragOver, playerState}) =>
       onDragOver={e => onDragOver(e)}
       onDrop={e => playerMove(e, category)}
     >
-      <button onClick={() => alert(genRaidinfo(playerState, category))}>Generate Raid Info</button>
+      <TextDisplay content={genRaidinfo(playerState, category)}/>
+
       <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
-      {players[category]}
+      {players[category].sort((a, b) => (a.props.role > b.props.role) ? 1 : -1)}
     </div>
   )
 }

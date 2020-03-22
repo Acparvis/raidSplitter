@@ -1,18 +1,23 @@
+import React from "react";
+
 const genRaidinfo = (players, category) => {
   const raidAttendees = players.filter((player) => player.category === category);
-  console.log(raidAttendees)
+  const attendeeStrings = raidAttendees.sort((a, b) => (a.role > b.role) ? 1 : -1).map((attendee) => attendee.name)
 
-  const attendeeStrings = raidAttendees.map((attendee) => attendee.name)
-
-  // attendeeStrings = attendeeStrings.replace(',', '\n');
-
-  console.log(attendeeStrings);
-
-  const message = `
-  ${category.charAt(0).toUpperCase() + category.slice(1)}
-  ${attendeeStrings.join('\n')}
-  `
-
+  const message =
+    <>
+      <h1 className="raid-info-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
+      <div className="raid-info-container">
+        <aside>
+          <h3>Roster</h3>
+          {attendeeStrings.map((attendee) => <p>{attendee}</p>)}
+        </aside>
+        <aside>
+          <h3>Invite macro</h3>
+          {attendeeStrings.map((attendee) => <p>/invite {attendee}</p>)}
+        </aside>
+      </div>
+    </>
 
   return message;
 }

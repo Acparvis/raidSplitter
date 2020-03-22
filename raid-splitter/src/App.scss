@@ -141,3 +141,18 @@ input {
     border-radius: 12px;
     padding: 3px 7px;
 }
+
+.raid-info-title{
+    color: black;
+}
+
+.raid-info-container{
+
+    display: flex;
+
+    aside {
+        border: 1px solid black;
+        border-radius: 15px;
+        padding: 20px;
+    }
+}

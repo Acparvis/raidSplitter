@@ -22,7 +22,8 @@ class DragAndDropApp extends React.Component {
     super(props);
     this.state = {
       form: false,
-      trashColumn: false
+      trashColumn: false,
+      dTools: false
     }
   }
 
@@ -53,6 +54,7 @@ class DragAndDropApp extends React.Component {
     return (
       <div>
         <div id="background-image"></div>
+        <h1>Raid Splitter v0.1</h1>
         <div className="container">
           {Object.keys(players).filter(i => this.state.trashColumn || i !== "trash").map((item) => {
               return <DropColumn
@@ -81,6 +83,10 @@ class DragAndDropApp extends React.Component {
         {this.state.form && (<div className="formContainer">
           <NewPlayer/>
         </div>)}
+
+        <button onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools</button>
+
+        {!!this.state.dTools && <p style={{ background: "grey"}}>{JSON.stringify(this.props.players)}</p>}
 
       </div>
     );
