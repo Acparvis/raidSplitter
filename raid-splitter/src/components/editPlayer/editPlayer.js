@@ -64,6 +64,7 @@ const EditPlayer = ({players, player, playerEdit}) =>{
             alts: player.alts,
             isSkinner: player.isSkinner,
             note: player.note,
+            itemReservation: player.itemReservation
           }}
           schema={schema(players)} onSubmit={(values, {resetForm}) => {
           playerEdit(values, player.id);

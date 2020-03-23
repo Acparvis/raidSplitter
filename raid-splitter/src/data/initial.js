@@ -10,6 +10,7 @@ const initState = {
       itemPrio: [],
       alts: [],
       isSkinner: true,
+      itemReservation: [],
     },
     {
       id: 2,
@@ -21,6 +22,7 @@ const initState = {
       itemPrio: [],
       alts: [],
       isSkinner: false,
+      itemReservation: [],
     },
     {
       id: 3,
@@ -32,7 +34,7 @@ const initState = {
       itemPrio: [],
       alts: [],
       isSkinner: false,
-
+      itemReservation: [],
     },
     {
       id: 4,
@@ -44,7 +46,7 @@ const initState = {
       itemPrio: [],
       alts: [ "Parvy" ],
       isSkinner: false,
-
+      itemReservation: [],
     },
   ]
 }

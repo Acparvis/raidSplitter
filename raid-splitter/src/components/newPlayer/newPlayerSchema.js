@@ -1,3 +1,5 @@
+import reservables from "../../utils/constants/reservables";
+
 const schema = (players) => {
   return {
     "id": "my-new-form",
@@ -115,6 +117,22 @@ const schema = (players) => {
             validation: [
               ['bool'],
             ]
+          },
+          "itemReservation": {
+            type: "field",
+            renderer: "react-select",
+            name: "itemReservation",
+            label: "Item Reservations",
+            isMulti: true,
+            isCreatable: false,
+            options: reservables.map((item) => {
+              return {
+                value: item.name,
+                label: item.name
+              }
+            }),
+            formGroupClass: "form-group mb-4",
+            validation: [['array'], ['of', [['string']]]]
           },
           "note": {
             name: "note",
