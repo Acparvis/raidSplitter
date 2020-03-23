@@ -1,15 +1,15 @@
 import React from "react";
 import {connect} from "react-redux";
 import {addPlayer, movePlayer} from "../../data/actions/players";
-import { resetApp } from "../../data/actions/app";
+import {resetApp} from "../../data/actions/app";
 import PlayerCard from "../playerCard/playerCard";
 import NewPlayer from "../newPlayer/newPlayer";
 import DropColumn from "../dropColumn/dropColumn";
 import {FaTrashAlt} from "react-icons/all";
 import ReactJson from 'react-json-view';
-import { confirmAlert } from 'react-confirm-alert'; // Import
+import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { FaCog } from "react-icons/all";
+import {FaCog} from "react-icons/all";
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -36,9 +36,9 @@ class DragAndDropApp extends React.Component {
 
   formFlip = () => this.setState({form: !this.state.form});
 
-  editFlip = () => this.setState({ editMode: !this.state.editMode});
+  editFlip = () => this.setState({editMode: !this.state.editMode});
 
-  toggleTrashColumn = () => this.setState({ trashColumn: !this.state.trashColumn})
+  toggleTrashColumn = () => this.setState({trashColumn: !this.state.trashColumn})
 
   onDragOver = ev => {
     ev.preventDefault();
@@ -74,15 +74,21 @@ class DragAndDropApp extends React.Component {
       trash: []
     };
 
-    this.props.players.forEach(player => players[player.category].push(<PlayerCard editMode={this.state.editMode} {...player} player={player} onDragStart={this.onDragStart} players={this.props.players}/>));
+    this.props.players.forEach(player => players[player.category].push(<PlayerCard
+      editMode={this.state.editMode} {...player} player={player} onDragStart={this.onDragStart}
+      players={this.props.players}/>));
 
     return (
-      <div>
+      <div className={"flex flex-col"}>
         <div id="background-image"></div>
         <h1>Raid Splitter v0.1</h1>
 
-        <button className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"} onClick={() => this.editFlip()}><FaCog/></button>
-        <h2 className={"text-white"}>{`Edit mode: ${JSON.stringify(this.state.editMode)}`}</h2>
+        <button
+          className={`self-end hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ` + (this.state.editMode ? "bg-blue-700" : "bg-white")}
+          onClick={() => this.editFlip()}
+        >
+          <FaCog/>
+        </button>
         <div className="flex flex-row">
           {Object.keys(players).filter(i => this.state.trashColumn || i !== "trash").map((item) => {
               return <DropColumn
@@ -112,9 +118,16 @@ class DragAndDropApp extends React.Component {
           <NewPlayer/>
         </div>)}
 
-        <button className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"} onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools</button>
-
-        <button className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"} onClick={() => this.submit(this.props.appReset)}>nuke data</button>
+        <div>
+          <button
+            className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"}
+            onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools
+          </button>
+          <button
+            className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"}
+            onClick={() => this.submit(this.props.appReset)}>nuke data
+          </button>
+        </div>
 
 
         {!!this.state.dTools && <ReactJson src={this.props.players} theme={"shapeshifter:inverted"}/>}

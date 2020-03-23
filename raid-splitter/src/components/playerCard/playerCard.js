@@ -55,7 +55,7 @@ const PlayerCard = ({name, category, characterClass, role, note, alts, onDragSta
          className="item-container content-center"
     >
       <div className={"flex justify-between w-auto content-center flex-row"}>
-        <p>{name}</p>
+        <p className={"mx-2"}>{name}</p>
         <div>{getRoleData(role).icon}</div>
         <div>{skinnerCheck(isSkinner)}</div>
       </div>
