@@ -9,6 +9,7 @@ import {FaTrashAlt} from "react-icons/all";
 import ReactJson from 'react-json-view';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { FaCog } from "react-icons/all";
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -28,11 +29,14 @@ class DragAndDropApp extends React.Component {
     this.state = {
       form: false,
       trashColumn: false,
-      dTools: false
+      dTools: false,
+      editMode: false,
     }
   }
 
   formFlip = () => this.setState({form: !this.state.form});
+
+  editFlip = () => this.setState({ editMode: !this.state.editMode});
 
   toggleTrashColumn = () => this.setState({ trashColumn: !this.state.trashColumn})
 
@@ -70,14 +74,16 @@ class DragAndDropApp extends React.Component {
       trash: []
     };
 
-    this.props.players.forEach(player => players[player.category].push(<PlayerCard {...player} onDragStart={this.onDragStart} players={this.props.players}/>));
-
+    this.props.players.forEach(player => players[player.category].push(<PlayerCard editMode={this.state.editMode} {...player} player={player} onDragStart={this.onDragStart} players={this.props.players}/>));
 
     return (
       <div>
         <div id="background-image"></div>
         <h1>Raid Splitter v0.1</h1>
-        <div className="container">
+
+        <button className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"} onClick={() => this.editFlip()}><FaCog/></button>
+        <h2 className={"text-white"}>{`Edit mode: ${JSON.stringify(this.state.editMode)}`}</h2>
+        <div className="flex flex-row">
           {Object.keys(players).filter(i => this.state.trashColumn || i !== "trash").map((item) => {
               return <DropColumn
                 onDragOver={this.onDragOver}
@@ -106,9 +112,9 @@ class DragAndDropApp extends React.Component {
           <NewPlayer/>
         </div>)}
 
-        <button onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools</button>
+        <button className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"} onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools</button>
 
-        <button onClick={() => this.submit(this.props.appReset)}>nuke data</button>
+        <button className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"} onClick={() => this.submit(this.props.appReset)}>nuke data</button>
 
 
         {!!this.state.dTools && <ReactJson src={this.props.players} theme={"shapeshifter:inverted"}/>}

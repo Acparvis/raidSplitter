@@ -23,8 +23,8 @@ const schema = (players) => {
             renderer: "react-select",
             name: "characterClass",
             label: "Class",
-            isCreatable: true,
-            validation: [['string'], ['required']],
+            isCreatable: false,
+            // validation: [['string'], ['required']],
             options: [{
               value: 0,
               label: "Druid"
@@ -67,7 +67,7 @@ const schema = (players) => {
             renderer: "react-select",
             name: "role",
             label: "Role",
-            isCreatable: true,
+            isCreatable: false,
             validation: [['string'], ['required']],
             options: [{
               value: 0,
@@ -103,6 +103,27 @@ const schema = (players) => {
             formGroupClass: "form-group mb-4",
             validation: [['array'], ['of', [['string']]]]
           },
+          isSkinner: {
+            name: "isSkinner",
+            label: "",
+            type: "field",
+            renderer: "checkbox",
+            options: [{
+              value: 'isSkinner',
+              label: 'Skinner?'
+            }],
+            validation: [
+              ['bool'],
+            ]
+          },
+          "note": {
+            name: "note",
+            label: "Note",
+            type: "field",
+            renderer: "text",
+            fieldType: "text",
+            // validation: [['string']]
+          },
           buttonsGroup: {
             type: "container",
             renderer: "button-group",
@@ -113,11 +134,11 @@ const schema = (players) => {
                 renderer: "button",
                 name: "save",
                 content: "Save",
-                fieldClass: "btn-success float-right",
-                buttonType: "submit",
+                fieldClass: "btn-success float-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+                buttonType: "submit"
               }
             }
-          }
+          },
         }
       },
 

@@ -1,13 +1,15 @@
 import React from "react";
 import getClassData from "../../utils/getPlayerClass";
 import getRoleData from "../../utils/getRoleData";
-import { FaCog } from 'react-icons/fa';
+import {FaCog} from 'react-icons/fa';
+import {GiCurvyKnife} from 'react-icons/gi';
+import EditPlayer from "../editPlayer/editPlayer";
 
-const PlayerCard = ({name, category, characterClass, role, note, alts, onDragStart, players}) => {
+const PlayerCard = ({name, category, characterClass, role, note, alts, onDragStart, players, isSkinner, editMode, player}) => {
 
   const generateStyles = () => {
     return {
-    backgroundColor: `${getClassData(characterClass).hex}`,
+      backgroundColor: `${getClassData(characterClass).hex}`,
       minWidth: "100px"
     }
   }
@@ -18,7 +20,7 @@ const PlayerCard = ({name, category, characterClass, role, note, alts, onDragSta
 
     // if any of the alts are in the same column return them
     !!alts && alts.forEach((alt) => {
-      let found = players.find(function(player){
+      let found = players.find(function (player) {
         return player.name === alt && player.category === category
       });
       if (found) conflicts.push(found.name);
@@ -29,28 +31,42 @@ const PlayerCard = ({name, category, characterClass, role, note, alts, onDragSta
 
     //compare the player name to the alts in the column, if they match return the alt name
     columnPlayers.forEach(p => {
-      let found = !!p.alts && p.alts.find(function(alt){
+      let found = !!p.alts && p.alts.find(function (alt) {
         return name === alt
       });
 
       if (found) conflicts.push(p.name)
     })
 
+    return conflicts;
+  }
 
+  const skinnerCheck = (isSkinner) => {
+    if (isSkinner) {
+      return <GiCurvyKnife/>
+    }
 
-    return conflicts.join(", ");
+    return null;
   }
 
   return (
     <div style={generateStyles()}
-          draggable
-          onDragStart={e => onDragStart(e, name)}
-         className="item-container"
+         draggable
+         onDragStart={e => onDragStart(e, name)}
+         className="item-container content-center"
     >
-      {/*removed options cog for now*/}
-      {/*<span>{name} {getRoleData(role).icon}</span> <FaCog onClick={() => alert(note)}/>*/}
-      <span>{name} {getRoleData(role).icon}</span>
-      {!!conflictDetect().length && <span className="conflict-players">{conflictDetect()}</span>}
+      <div className={"flex justify-between w-auto content-center flex-row"}>
+        <p>{name}</p>
+        <div>{getRoleData(role).icon}</div>
+        <div>{skinnerCheck(isSkinner)}</div>
+      </div>
+      <div className="flex">
+        {!!conflictDetect().length &&
+        <div className="flex justify-between w-auto content-center flex-row">
+          {conflictDetect().map((conflict) => <div className={"text-red-600 font-bold mr-1"}>{conflict}</div>)}
+        </div>}
+        {!!editMode && <EditPlayer players={players} player={player}/>}
+      </div>
     </div>
   )
 };

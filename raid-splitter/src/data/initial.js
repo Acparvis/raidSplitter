@@ -8,7 +8,8 @@ const initState = {
       role: 2,
       note: "",
       itemPrio: [],
-      alts: []
+      alts: [],
+      isSkinner: true,
     },
     {
       id: 2,
@@ -18,7 +19,8 @@ const initState = {
       role: 0,
       note: "Big daddy",
       itemPrio: [],
-      alts: []
+      alts: [],
+      isSkinner: false,
     },
     {
       id: 3,
@@ -28,7 +30,9 @@ const initState = {
       role: 3,
       note: "Heal daddy",
       itemPrio: [],
-      alts: []
+      alts: [],
+      isSkinner: false,
+
     },
     {
       id: 4,
@@ -38,71 +42,11 @@ const initState = {
       role: 1,
       note: "Bad warrior",
       itemPrio: [],
-      alts: [ "Parvy" ]
+      alts: [ "Parvy" ],
+      isSkinner: false,
+
     },
   ]
-  // playerCount: 4,
-  // boardData: {
-  //   columns: [
-  //     {
-  //       id: 1,
-  //       title: 'Benched',
-  //       cards: [
-  //         {
-  //           id: 1,
-  //           name: 'Parvy',
-  //           characterClass: 2,
-  //           role: 2,
-  //           note: "",
-  //           itemPrio: [],
-  //           alts: [4]
-  //         },
-  //         {
-  //           id: 2,
-  //           name: 'Rhinan',
-  //           characterClass: 8,
-  //           role: 0,
-  //           note: "Big daddy",
-  //           itemPrio: [],
-  //           alts: []
-  //         },
-  //         {
-  //           id: 3,
-  //           name: 'Klingspor',
-  //           characterClass: 4,
-  //           role: 3,
-  //           note: "Heal daddy",
-  //           itemPrio: [],
-  //           alts: []
-  //         },
-  //         {
-  //           id: 4,
-  //           name: 'Tankus',
-  //           characterClass: 8,
-  //           role: 1,
-  //           note: "Bad warrior",
-  //           itemPrio: [],
-  //           alts: [1]
-  //         },
-  //       ]
-  //     },
-  //     {
-  //       id: 2,
-  //       title: 'Raid 1',
-  //       cards: []
-  //     },
-  //     {
-  //       id: 3,
-  //       title: 'Raid 2',
-  //       cards: []
-  //     },
-  //     {
-  //       id: 4,
-  //       title: 'Raid 3',
-  //       cards: []
-  //     }
-  //   ]
-  // }
 }
 
 
