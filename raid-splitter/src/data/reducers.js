@@ -37,7 +37,7 @@ const editPlayer = (state, {value, id}) => {
       ...players
     ]
   }
-  
+
 };
 
 const movePlayer = (state, {event, cat}) => {

@@ -1,7 +1,6 @@
 import React from "react";
 import getClassData from "../../utils/getPlayerClass";
 import getRoleData from "../../utils/getRoleData";
-import {FaCog} from 'react-icons/fa';
 import {GiCurvyKnife} from 'react-icons/gi';
 import EditPlayer from "../editPlayer/editPlayer";
 
@@ -42,7 +41,7 @@ const PlayerCard = ({name, category, characterClass, role, note, alts, onDragSta
   }
 
   const skinnerCheck = (isSkinner) => {
-    if (isSkinner) {
+    if (!!isSkinner && isSkinner[0] === true) {
       return <GiCurvyKnife/>
     }
 
