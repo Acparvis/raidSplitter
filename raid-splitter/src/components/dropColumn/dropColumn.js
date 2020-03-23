@@ -3,6 +3,7 @@ import {addPlayer, movePlayer} from "../../data/actions/players";
 import {connect} from "react-redux";
 import genRaidinfo from "../../utils/genRaidinfo";
 import TextDisplay from "../textDisplay";
+import RaidComposition from "../raidComposition/raidComposition";
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -25,6 +26,7 @@ const DropColumn = ({category, players, playerMove, onDragOver, playerState}) =>
       <TextDisplay content={genRaidinfo(playerState, category)}/>
 
       <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
+      <RaidComposition category={category}/>
       {players[category].sort((a, b) => (a.props.role > b.props.role) ? 1 : -1)}
     </div>
   )

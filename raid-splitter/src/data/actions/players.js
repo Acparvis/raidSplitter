@@ -5,6 +5,14 @@ export const addPlayer = (value) => ({
   value
 });
 
+export const EDIT_PLAYER = Symbol("EDIT_PLAYER");
+
+export const editPlayer = (value, id) => ({
+  type: EDIT_PLAYER,
+  value,
+  id
+});
+
 export const MOVE_PLAYER = Symbol("MOVE_PLAYER");
 
 export const movePlayer = (event, cat) => ({
@@ -12,3 +20,4 @@ export const movePlayer = (event, cat) => ({
   event,
   cat
 });
+

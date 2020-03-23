@@ -17,7 +17,6 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 const TextDisplay = ({content}) =>{
-  var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
@@ -34,7 +33,7 @@ const TextDisplay = ({content}) =>{
 
   return (
     <div>
-      <button onClick={openModal}>Generate Raid Info</button>
+      <button className={"bg-white hover:bg-gray-100 text-gray-800 py-1 px-1 border border-gray-400 rounded shadow"} onClick={openModal}>Data</button>
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}

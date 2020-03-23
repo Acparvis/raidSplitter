@@ -9,11 +9,11 @@ const genRaidinfo = (players, category) => {
       <h1 className="raid-info-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
       <div className="raid-info-container">
         <aside>
-          <h3>Roster</h3>
+          <h3 className={"font-bold"}>Roster</h3>
           {attendeeStrings.map((attendee) => <p>{attendee}</p>)}
         </aside>
         <aside>
-          <h3>Invite macro</h3>
+          <h3 className={"font-bold"}>Invite macro</h3>
           {attendeeStrings.map((attendee) => <p>/invite {attendee}</p>)}
         </aside>
       </div>

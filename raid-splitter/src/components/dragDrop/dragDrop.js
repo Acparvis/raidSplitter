@@ -1,11 +1,15 @@
 import React from "react";
 import {connect} from "react-redux";
 import {addPlayer, movePlayer} from "../../data/actions/players";
+import {resetApp} from "../../data/actions/app";
 import PlayerCard from "../playerCard/playerCard";
 import NewPlayer from "../newPlayer/newPlayer";
 import DropColumn from "../dropColumn/dropColumn";
 import {FaTrashAlt} from "react-icons/all";
 import ReactJson from 'react-json-view';
+import {confirmAlert} from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import {FaCog} from "react-icons/all";
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -16,6 +20,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   playerAdd: (value) => dispatch(addPlayer(value)),
   playerMove: (event, cat) => dispatch(movePlayer(event, cat)),
+  appReset: () => dispatch(resetApp()),
 });
 
 class DragAndDropApp extends React.Component {
@@ -24,13 +29,16 @@ class DragAndDropApp extends React.Component {
     this.state = {
       form: false,
       trashColumn: false,
-      dTools: false
+      dTools: false,
+      editMode: false,
     }
   }
 
   formFlip = () => this.setState({form: !this.state.form});
 
-  toggleTrashColumn = () => this.setState({ trashColumn: !this.state.trashColumn})
+  editFlip = () => this.setState({editMode: !this.state.editMode});
+
+  toggleTrashColumn = () => this.setState({trashColumn: !this.state.trashColumn})
 
   onDragOver = ev => {
     ev.preventDefault();
@@ -38,6 +46,23 @@ class DragAndDropApp extends React.Component {
 
   onDragStart = (ev, name) => {
     ev.dataTransfer.setData("id", name);
+  };
+
+  submit = (resetData) => {
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure you want to nuke all data?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => resetData(),
+        },
+        {
+          label: 'No',
+          onClick: () => console.log("don't reset"),
+        }
+      ]
+    });
   };
 
   render() {
@@ -49,14 +74,22 @@ class DragAndDropApp extends React.Component {
       trash: []
     };
 
-    this.props.players.forEach(player => players[player.category].push(<PlayerCard {...player} onDragStart={this.onDragStart} players={this.props.players}/>));
-
+    this.props.players.forEach(player => players[player.category].push(<PlayerCard
+      editMode={this.state.editMode} {...player} player={player} onDragStart={this.onDragStart}
+      players={this.props.players}/>));
 
     return (
-      <div>
+      <div className={"flex flex-col"}>
         <div id="background-image"></div>
         <h1>Raid Splitter v0.1</h1>
-        <div className="container">
+
+        <button
+          className={`self-end hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ` + (this.state.editMode ? "bg-blue-700" : "bg-white")}
+          onClick={() => this.editFlip()}
+        >
+          <FaCog/>
+        </button>
+        <div className="flex flex-row">
           {Object.keys(players).filter(i => this.state.trashColumn || i !== "trash").map((item) => {
               return <DropColumn
                 onDragOver={this.onDragOver}
@@ -85,7 +118,17 @@ class DragAndDropApp extends React.Component {
           <NewPlayer/>
         </div>)}
 
-        <button onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools</button>
+        <div>
+          <button
+            className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"}
+            onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools
+          </button>
+          <button
+            className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"}
+            onClick={() => this.submit(this.props.appReset)}>nuke data
+          </button>
+        </div>
+
 
         {!!this.state.dTools && <ReactJson src={this.props.players} theme={"shapeshifter:inverted"}/>}
 
