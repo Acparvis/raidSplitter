@@ -4,12 +4,13 @@ import getRoleData from "../../utils/getRoleData";
 import {GiCurvyKnife} from 'react-icons/gi';
 import EditPlayer from "../editPlayer/editPlayer";
 
-const PlayerCard = ({name, category, characterClass, role, note, alts, onDragStart, players, isSkinner, editMode, player}) => {
+const PlayerCard = ({name, category, characterClass, role, note, alts, onDragStart, players, isSkinner, editMode, player, altMode}) => {
 
   const generateStyles = () => {
     return {
       backgroundColor: `${getClassData(characterClass).hex}`,
-      minWidth: "100px"
+      minWidth: "100px",
+      boxShadow: altIndicator(),
     }
   }
 
@@ -46,6 +47,17 @@ const PlayerCard = ({name, category, characterClass, role, note, alts, onDragSta
     }
 
     return null;
+  }
+
+  const altIndicator = () => {
+    if (!altMode) return "";
+    if (!!alts === false) return "";
+    if (category !== "benched") return "";
+    // check if a linked character is active
+
+    // if so, return alt indicator CSS
+      return "0px 0px 26px 0px rgba(255,0,0,1)"
+
   }
 
   return (

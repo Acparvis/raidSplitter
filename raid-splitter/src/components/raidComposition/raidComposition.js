@@ -16,6 +16,17 @@ const mapDispatchToProps = dispatch => ({
   playerMove: (event, cat) => dispatch(movePlayer(event, cat)),
 });
 
+
+const raidCount = (playerState, category) => {
+  let playerCount = [];
+
+  playerState.map((player) => {
+    if (player.category === category) playerCount.push(player)
+  })
+
+  return <h3 className={"font-semibold text-white px-5"}>{playerCount.length} players</h3>
+}
+
 const roleCount = (playerState, category) => {
   let roleCount = [[], [], [], []];
 
@@ -81,8 +92,9 @@ const RaidComposition = ({playerState, category}) => {
 
   return (
     <>
+      {raidCount(playerState, category)}
       {roleCount(playerState, category)}
-      {itemCount(playerState, category)}
+      {/*{itemCount(playerState, category)}*/}
     </>
   )
 };

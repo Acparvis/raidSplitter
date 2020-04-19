@@ -10,6 +10,7 @@ import ReactJson from 'react-json-view';
 import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import {FaCog} from "react-icons/all";
+import {IoIosContacts} from "react-icons/io";
 
 const mapStateToProps = state => {
   let players = state.players;
@@ -31,12 +32,15 @@ class DragAndDropApp extends React.Component {
       trashColumn: false,
       dTools: false,
       editMode: false,
+      altMode: false,
     }
   }
 
   formFlip = () => this.setState({form: !this.state.form});
 
   editFlip = () => this.setState({editMode: !this.state.editMode});
+
+  altModeFlip = () => this.setState({altMode: !this.state.altMode});
 
   toggleTrashColumn = () => this.setState({trashColumn: !this.state.trashColumn})
 
@@ -47,6 +51,23 @@ class DragAndDropApp extends React.Component {
   onDragStart = (ev, name) => {
     ev.dataTransfer.setData("id", name);
   };
+
+  exportToJson = (objectData) => {
+    let filename = "export.json";
+    let contentType = "application/json;charset=utf-8;";
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(objectData)))], { type: contentType });
+      navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+      var a = document.createElement('a');
+      a.download = filename;
+      a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(objectData));
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  }
 
   submit = (resetData) => {
     confirmAlert({
@@ -76,6 +97,7 @@ class DragAndDropApp extends React.Component {
 
     this.props.players.forEach(player => players[player.category].push(<PlayerCard
       editMode={this.state.editMode} {...player} player={player} onDragStart={this.onDragStart}
+      altMode={this.state.altMode}
       players={this.props.players}/>));
 
     return (
@@ -83,12 +105,20 @@ class DragAndDropApp extends React.Component {
         <div id="background-image"></div>
         <h1>Raid Splitter v0.1</h1>
 
-        <button
-          className={`self-end hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ` + (this.state.editMode ? "bg-blue-700" : "bg-white")}
-          onClick={() => this.editFlip()}
-        >
-          <FaCog/>
-        </button>
+        <div>
+          <button
+            className={`self-end hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ` + (this.state.editMode ? "bg-blue-700" : "bg-white")}
+            onClick={() => this.editFlip()}
+          >
+            <FaCog/>
+          </button>
+          <button
+            className={`self-end hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ` + (this.state.altMode ? "bg-blue-700" : "bg-white")}
+            onClick={() => this.altModeFlip()}
+          >
+            <IoIosContacts/>
+          </button>
+        </div>
         <div className="flex flex-row">
           {Object.keys(players).filter(i => this.state.trashColumn || i !== "trash").map((item) => {
               return <DropColumn
@@ -122,6 +152,10 @@ class DragAndDropApp extends React.Component {
           <button
             className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"}
             onClick={() => this.setState({dTools: !this.state.dTools})}>Dev tools
+          </button>
+          <button
+            className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"}
+            onClick={() => this.exportToJson({players: this.props.players})}>Export
           </button>
           <button
             className={"bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"}
